@@ -26,7 +26,10 @@ if [ "$1" = "--help" ] || [ "$1" = "-h" ]; then
 fi
 
 # Attempt to load the configfs tree for the device tree.
-mount -t configfs none /sys/kernel/config
+if [ ! -d /sys/kernel/config/device-tree ]; then
+  mount -t configfs none /sys/kernel/config
+fi
+
 if [ ! -d /sys/kernel/config/device-tree ]; then
   echo "apply_overlays: Failed to find device tree ConfigFS root under" \
        "/sys/kernel/config/device-tree. Ensure the kernel has been compiled" \

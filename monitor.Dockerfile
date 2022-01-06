@@ -10,6 +10,10 @@ RUN cd hyperpixel2r && dtc -@ -I dts -O dtb -o /overlays/hyperpixel2r.dtbo ./src
 
 FROM balenalib/raspberry-pi-debian-python:buster-run
 
+# Chromium & X
+RUN install_packages chromium-browser unclutter xinit xorg
+COPY .xinitrc /root/.xinitrc
+
 RUN install_packages build-essential
 RUN pip install RPi.GPIO
 
@@ -23,4 +27,4 @@ COPY apply_overlays.sh /apply-overlays.sh
 # Init script for Hyperpixel2r
 COPY --from=build /hyperpixel2r/dist/hyperpixel2r-init /
 
-CMD /apply-overlays.sh && /hyperpixel2r-init && balena-idle
+CMD /apply-overlays.sh hyperpixel2r && /hyperpixel2r-init && startx

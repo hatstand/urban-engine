@@ -1,0 +1,9 @@
+version: "2"
+
+services:
+  monitor:
+    build:
+      context: .
+      dockerfile: ./monitor.Dockerfile
+    privileged: true
+    restart: yes
